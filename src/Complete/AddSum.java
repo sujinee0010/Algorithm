@@ -1,4 +1,4 @@
-package Complete.baekjoon;
+package Complete;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
