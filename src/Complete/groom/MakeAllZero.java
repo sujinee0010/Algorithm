@@ -1,4 +1,4 @@
-package Complete;
+package Complete.groom;
 
 import java.util.*;
 
@@ -6,20 +6,12 @@ import java.util.*;
 public class MakeAllZero {
 
     public static void findZero(int arr[][],boolean isZero[][]){
-        //int time =1;
-
-
         for(int i=0;i<arr.length;i++){
             for(int j = 0;j<arr[i].length;j++){
-
-                if(arr[i][j]==0){
+                if(arr[i][j]==0)
                     isZero[i][j]=true;
-                }
-
             }
-            //System.out.println("");
         }
-
     }
 
     private static void makeZero(int[][] arr, boolean[][] isZero) {
