@@ -1,5 +1,5 @@
 package Complete.programmers;
-//프로그래머스 입국심사
+//프로그래머스 입국심사 이분탐색
 import java.util.*;
 public class Immigration {
     public static long solution(int n, int[] times) {
