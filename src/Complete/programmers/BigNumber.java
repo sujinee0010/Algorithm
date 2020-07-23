@@ -1,65 +1,26 @@
 package Complete.programmers;
 
 import java.util.*;
-import java.util.stream.Collectors;
-// 테케 일부 오류 ->수정 필요
+//프로그래머스 가장 큰 수
 public class BigNumber {
-    public static class Number {
-        private String number;
-        Number(String number){
-            this.number = number;
-        }
-        public int getNumFirst(){
-            return Character.getNumericValue(number.charAt(0));
-        }
-        public int getNumSecond(){
-            if(number.length()>=2) // 91
-            {   if(Character.getNumericValue(number.charAt(1))==0)
-                    return -1;
-                else
-                    return Character.getNumericValue(number.charAt(1));
-            }
-            else // 9
-                return 0;
-        }
-        public int getNumThird(){
-            if(number.length()>=3)
-            {   if(Character.getNumericValue(number.charAt(2))==0)
-                return -1;
-            else
-                return Character.getNumericValue(number.charAt(2));
-            }
-
-            else
-                return 0;
-        }
-    }
-    public static String solution(int[] numbers) {
+    public String solution(int[] numbers) {
         String answer = "";
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < numbers.length; i++)
+            list.add(numbers[i]);
+        //내립차순
+        Collections.sort(list, (a, b) -> {
+            String as = String.valueOf(a), bs = String.valueOf(b);
+            return -Integer.compare(Integer.parseInt(as + bs), Integer.parseInt(bs + as));
+        });
+        StringBuilder sb = new StringBuilder();
+        for(Integer i : list)
+            sb.append(i);
+        answer = sb.toString();
+        if(answer.charAt(0) == '0')
+            return "0";
+        else
+            return answer;
 
-       int len = (int) Arrays.stream(numbers).filter(x->x==0).count();
-       if(len==numbers.length) return "0";
-        ArrayList<Number> tnum = new ArrayList<>();
-        for(int i=0;i<numbers.length;i++){
-            tnum.add(new Number(Integer.toString(numbers[i])));
-        }
-
-        ArrayList<Number> sorted = (ArrayList<Number>) tnum.stream().sorted(Comparator.comparing(Number::getNumFirst)
-                .thenComparing(Number::getNumSecond)
-                .thenComparing(Number::getNumThird).reversed()).collect(Collectors.toList());
-
-
-        Iterator<Number> sit = sorted.iterator();
-        while (sit.hasNext()){
-            answer+= sit.next().number;
-        }
-
-        //System.out.println(answer);
-        return answer;
-    }
-
-    public static void main(String args[]){
-        int n[]={0,0,0,0};//3, 30, 34, 5, 9
-        System.out.println(solution(n));
     }
 }
