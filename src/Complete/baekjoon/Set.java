@@ -1,7 +1,6 @@
 package Complete.baekjoon;
-
 import java.util.*;
-
+// union-find
 public class Set {
     static int[] parent; // 부모 저장 배열
     public static void main(String[] args) {
@@ -20,8 +19,9 @@ public class Set {
             int num2 = sc.nextInt();
             if(flag==0)
                 union(num1,num2);
-            else{
-                if (parent[num1]==parent[num2])
+            else if (flag==1){
+                System.out.println(parent[num1] +" , "+ parent[num2]);
+                if (findSet(num1)==findSet(num2))//if(parent[num1]==parent[num2])//
                     result.add("YES");
                 else
                     result.add("NO");
@@ -43,9 +43,9 @@ public class Set {
             return parent[x] = findSet(parent[x]);
     }
     public static void union(int x, int y) {
-        int px = findSet(x);
-        int py = findSet(y);
+        int px = findSet(x); // 2  1
+        int py = findSet(y); // 3  2
         if (px != py)
-            parent[py] = px;
+            parent[py] = px; // p3 = 2  p2 = 1 ... p1 = 1
     }
 }
