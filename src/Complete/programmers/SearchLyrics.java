@@ -1,28 +1,93 @@
 package Complete.programmers;
 
-import java.util.StringTokenizer;
-//가사검색 , 시간 초과 
+import java.util.Map;
+import java.util.HashMap;
+//가사검색 , Trie 트라이 자료구조
 public class SearchLyrics {
-    public static int[] solution(String[] words, String[] queries) {
+    public int[] solution(String[] words, String[] queries) {
+
+        Trie[] tries = new Trie[100001];
+
+        for (String word : words) {
+            int len = word.length();
+            if (tries[len] == null)
+                tries[len] = new Trie();
+            tries[len].insert(word);
+        }
+
         int[] answer = new int[queries.length];
-        for(int i=0;i<queries.length;i++){
-            String qr = queries[i];
-            StringTokenizer st = new StringTokenizer(qr,"?");
-            String sw = st.nextToken(); // 문자열 부분
-            int sp = qr.indexOf(sw);// 문자열 시작 위치
-            int ep = sp + sw.length()-1; // 문자열 종료 위치
-            for(int j=0;j<words.length;j++){
-                String w = words[j];
-                if(w.length()==qr.length() &&
-                w.substring(sp,ep+1).equals(sw))
-                    answer[i]++;
-            }
+        for (int i = 0; i < queries.length; i++) {
+            int len = queries[i].length();
+            if (tries[len] == null)
+                answer[i] = 0;
+            else answer[i] = tries[len].getCount(queries[i]);
         }
         return answer;
     }
-    public static void main(String args[]){
-        String [] words ={"frodo", "front", "frost", "frozen", "frame", "kakao"};
-        String [] qrs = {"fro??", "????o", "fr???", "fro???", "pro?"};
-        solution(words,qrs);
+
+}
+
+class Trie {
+    Node front;
+    Node back;
+    Trie() {
+        this.front = new Node();
+        this.back = new Node();
+    }
+
+    public void insert(String word) {
+        insertFront(word); insertBack(word);
+    }
+    private void insertFront(String word) {
+        Node node = front;
+        for (int i = 0; i < word.length(); i++) {
+            node.count++;
+            node = node.children.computeIfAbsent(word.charAt(i), c -> new Node());
+        }
+    }
+    private void insertBack(String word) {
+        Node node = back;
+        for (int i = word.length() - 1; i >= 0; i--) {
+            node.count++;
+            node = node.children.computeIfAbsent(word.charAt(i), c -> new Node());
+        }
+    }
+
+    public int getCount(String query) {
+        if (query.charAt(0) == '?')
+            return getCountFromBack(query);
+        else return getCountFromFront(query);
+    }
+
+    private int getCountFromFront(String query) {
+        Node node = front;
+        for (int i = 0; i < query.length(); i++) {
+            if (query.charAt(i) == '?') break;
+            if (!node.children.containsKey(query.charAt(i)))
+                return 0;
+            node = node.children.get(query.charAt(i));
+        }
+        return node.count;
+    }
+
+    private int getCountFromBack(String query) {
+        Node node = back;
+        for (int i = query.length() - 1; i >= 0; i--) {
+            if (query.charAt(i) == '?')
+                break;
+            if (!node.children.containsKey(query.charAt(i)))
+                return 0;
+            node = node.children.get(query.charAt(i));
+        }
+        return node.count;
+    }
+}
+
+class Node {
+    Map<Character, Node> children;
+    int count;
+    Node(){
+        this.children = new HashMap<>();
+        this.count = 0;
     }
 }
