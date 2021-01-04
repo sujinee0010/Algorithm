@@ -1,5 +1,4 @@
 package Complete.programmers;
-
 import java.util.Arrays;
 
 public class SearchCam {
@@ -15,7 +14,7 @@ public class SearchCam {
         }
         return answer;
     }
-    
+
     public static void main(String args[]){
         int c[][]= {{-20,15}, {-14,-5}, {-18,-13},{-5,-3}};
         System.out.println(solution(c));

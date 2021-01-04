@@ -1,7 +1,7 @@
 package Complete.programmers;
-
 import java.util.LinkedList;
 import java.util.Queue;
+
 // 프로그래머스 네트워크 bfs
 public class Network2021 {
     public static int solution(int n, int[][] computers) {
