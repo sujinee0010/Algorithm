@@ -7,12 +7,10 @@ public class Bus {
 
         int n = sc.nextInt(); // 5
         int b = sc.nextInt(); // 8
-
         ArrayList<int[]>[] arr = new ArrayList[n+1];
         for (int i=0;i<arr.length;i++){
             arr[i] = new ArrayList();
         }
-
 
         for(int i=0;i<b;i++){
             int start = sc.nextInt();
@@ -53,7 +51,7 @@ public class Bus {
 
         }
 
-      
+
         System.out.println(distance[e]);
 
     }
