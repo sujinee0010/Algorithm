@@ -1,76 +1,63 @@
 package Complete.baekjoon;
 
 import java.util.Scanner;
-
+/*
+* 스트링을 너무 많이 생성한 코드- 메모리 초과 남
+* */
 public class p2138 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n  = sc.nextInt();
-        String d = sc.next(); // 000
-        String state = sc.next(); // 010
-        int ans=10000000;
+        String now = sc.next(); // 000
+        String expect = sc.next(); // 010
+        int INF = 987654321 , first_cnt =1 , second_cnt =0;
+        int[]first = new int[n];
+        int[]second= new int[n];
+        int[]ex = new int[n];
 
-        
-        int first_cnt =1;
-        // 첫번쨰 버튼 누른다
-        String tmp = reverse(0,d);
-        tmp = reverse(1,tmp);
-        //System.out.println(tmp);
-        for(int i=1;i<tmp.length();i++){
-            char before = tmp.charAt(i-1);
-            if(before != state.charAt(i-1)) {
-                // 누른다
+        for(int i=0;i<n;i++){
+            first[i]=Character.getNumericValue(now.charAt(i));
+            second[i]=Character.getNumericValue(now.charAt(i));
+            ex[i]=Character.getNumericValue(expect.charAt(i));
+        }
+        // 전구 킨 거
+        // 0 이면 1로
+        first[0] = 1 - first[0];
+        first[1] = 1 - first[1];
+
+        for(int i=1;i<ex.length;i++){
+            if(first[i-1] != ex[i-1]){
+                first[i] = 1 - first[i];
+                first[i-1] = 1 - first[i-1];
+
+                if(i< ex.length-1)
+                    first[i+1] = 1 - first[i+1];
                 first_cnt++;
-                if(i<tmp.length()-1)
-                    tmp = reverse(i+1 , tmp);
-                tmp = reverse(i , tmp);
-                tmp = reverse(i-1 , tmp);
-                //System.out.println(tmp);
             }
-        }
-        if(tmp.equals(state))
-            ans = Math.min(ans,first_cnt);
 
+            if(second[i-1] != ex[i-1]){
+                second[i] = 1 - second[i];
+                second[i-1] = 1 - second[i-1];
 
-        // 안누른다
-        int second_cnt =0;
-        String tmp2 = d;
-
-        for(int i=1;i<tmp2.length();i++){
-            char before = tmp2.charAt(i-1);
-            if(before != state.charAt(i-1)) {
-                // 누른다
+                if(i< ex.length-1)
+                    second[i+1] = 1 - second[i+1];
                 second_cnt++;
-                if(i<tmp2.length()-1)
-                    tmp2 = reverse(i+1 , tmp2);
-                tmp2 = reverse(i , tmp2);
-                tmp2 = reverse(i-1 , tmp2);
-                //System.out.println(tmp2);
             }
         }
-        if(tmp2.equals(state))
-            ans = Math.min(ans,second_cnt);
 
-        if (ans==10000000)
-            System.out.println(-1);
-        else
-            System.out.println(ans);
-    }
 
-    private static String reverse(int idx , String s){
-        char ans;
-        if (s.charAt(idx) =='0') ans='1';
-        else ans ='0';
-        if (idx==0){
-            return ans + s.substring(1);
+        for(int i=0;i<ex.length;i++){
+            if(ex[i] != first[i] && first_cnt!=INF)
+                first_cnt=INF;
+            if(ex[i] != second[i] && second_cnt!=INF)
+                second_cnt=INF;
         }
-        else if (idx == s.length()-1){
-            return s.substring(0,idx)+ans;
-        }else {
-            return s.substring(0,idx)+ans+s.substring(idx+1);
-        }
+
+        int ans = Math.min(first_cnt,second_cnt);
+        if(ans==INF) ans = -1;
+        System.out.println(ans);
+
+
     }
-
-
 
 }
