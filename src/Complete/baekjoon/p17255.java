@@ -13,21 +13,21 @@ public class p17255 {
         Scanner sc = new Scanner(System.in);
         String number = sc.next();
         Map<String,Integer> dp = new HashMap<>();
-        make(number,Integer.parseInt(number) ,dp);
+        make(number ,dp);
 
         System.out.println(dp.get(number));
 
     }
 
-    private static String make(String number, int didx , Map<String,Integer> dp) {
+    private static String make(String number , Map<String,Integer> dp) {
         if(number.length()==1){
             dp.put(number,1);
             return number;
         }
         else
         {
-            String ll = make(number.substring(0,number.length()-1),didx-1,dp);
-            String rr = make(number.substring(1),didx-1,dp);
+            String ll = make(number.substring(0,number.length()-1),dp);
+            String rr = make(number.substring(1),dp);
 
             if(!ll.equals(rr))
                 dp.put( number, dp.get(ll) + dp.get(rr) );
